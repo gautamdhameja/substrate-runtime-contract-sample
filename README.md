@@ -13,6 +13,12 @@ A sample Substrate runtime showing interaction between runtime modules (pallets)
 }
 ```
 
+## Generating Keys
+
+Keys to storage items in substrate are constructed by hashing the raw key. 
+
+Refer to the [substrate documentation](https://crates.parity.io/palette_support/macro.decl_storage.html#example) about storage types and key construction.
+
 ## Build
 
 Install Rust:
