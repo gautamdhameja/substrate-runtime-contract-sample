@@ -44,7 +44,9 @@ mod custom_type {
     /// In order to decode a value of that type from the runtime storage:
     ///   - The type must match exactly the custom type defined in the runtime
     ///   - It must implement `Decode`, usually by deriving it as below
+    ///   - It should implement `Metadata` for use with `generate-metadata` (required for the UI).
     #[derive(scale::Decode, scale::Encode)]
+    #[cfg_attr(feature = "ink-generate-abi", derive(type_metadata::Metadata))]
     pub struct Foo {
         id: u32,
         data: Vec<u8>,
