@@ -18,6 +18,7 @@ members = ['runtime']
 [dependencies]
 derive_more = '0.15.0'
 futures = '0.3.1'
+jsonrpc-core = "14.0.5"
 log = '0.4.8'
 parking_lot = '0.9.0'
 tokio = '0.1.22'
@@ -75,6 +76,11 @@ git = 'https://github.com/paritytech/substrate.git'
 package = 'substrate-network'
 rev = '77e681fb8b9c1e98ef1441bcc648e40ee36dac41'
 
+[dependencies.pallet-contracts-rpc]
+git = 'https://github.com/paritytech/substrate.git'
+package = 'pallet-contracts-rpc'
+rev = '77e681fb8b9c1e98ef1441bcc648e40ee36dac41'
+
 [dependencies.primitives]
 git = 'https://github.com/paritytech/substrate.git'
 package = 'substrate-primitives'
@@ -101,6 +107,10 @@ git = 'https://github.com/paritytech/substrate.git'
 rev = '77e681fb8b9c1e98ef1441bcc648e40ee36dac41'
 
 [dependencies.substrate-executor]
+git = 'https://github.com/paritytech/substrate.git'
+rev = '77e681fb8b9c1e98ef1441bcc648e40ee36dac41'
+
+[dependencies.substrate-rpc]
 git = 'https://github.com/paritytech/substrate.git'
 rev = '77e681fb8b9c1e98ef1441bcc648e40ee36dac41'
 

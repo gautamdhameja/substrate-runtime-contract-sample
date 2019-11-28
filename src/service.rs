@@ -32,6 +32,7 @@ construct_simple_protocol! {
 /// be able to perform chain operations.
 macro_rules! new_full_start {
 	($config:expr) => {{
+		type RpcExtension = jsonrpc_core::IoHandler<substrate_rpc::Metadata>;
 		let mut import_setup = None;
 		let inherent_data_providers = inherents::InherentDataProviders::new();
 
@@ -66,6 +67,16 @@ macro_rules! new_full_start {
 				import_setup = Some((grandpa_block_import, grandpa_link));
 
 				Ok(import_queue)
+			})?
+			.with_rpc_extensions(|client, _pool, _backend| -> RpcExtension {
+				use pallet_contracts_rpc::{Contracts, ContractsApi};
+
+				// register contracts RPC extension
+				let mut io = jsonrpc_core::IoHandler::default();
+				io.extend_with(
+					ContractsApi::to_delegate(Contracts::new(client.clone()))
+				);
+				io
 			})?;
 
 		(builder, import_setup, inherent_data_providers)

@@ -1559,7 +1559,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "failure 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures 0.1.29 (registry+https://github.com/rust-lang/crates.io-index)",
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-pubsub 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.103 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1569,7 +1569,7 @@ dependencies = [
 
 [[package]]
 name = "jsonrpc-core"
-version = "14.0.3"
+version = "14.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "futures 0.1.29 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1604,7 +1604,7 @@ version = "14.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "hyper 0.12.35 (registry+https://github.com/rust-lang/crates.io-index)",
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-server-utils 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "net2 0.2.33 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1617,7 +1617,7 @@ name = "jsonrpc-pubsub"
 version = "14.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "parking_lot 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.103 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1630,7 +1630,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bytes 0.4.12 (registry+https://github.com/rust-lang/crates.io-index)",
  "globset 0.4.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio 0.1.22 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1643,7 +1643,7 @@ name = "jsonrpc-ws-server"
 version = "14.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-server-utils 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "parking_lot 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2512,6 +2512,23 @@ dependencies = [
  "sr-std 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
  "substrate-primitives 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
  "wasmi-validation 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "pallet-contracts-rpc"
+version = "2.0.0"
+source = "git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41#77e681fb8b9c1e98ef1441bcc648e40ee36dac41"
+dependencies = [
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core-client 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-derive 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pallet-contracts-rpc-runtime-api 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
+ "parity-scale-codec 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 1.0.103 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sr-primitives 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
+ "substrate-client 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
+ "substrate-primitives 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
+ "substrate-rpc-primitives 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
 ]
 
 [[package]]
@@ -4381,7 +4398,7 @@ source = "git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef
 dependencies = [
  "futures 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "hash-db 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-pubsub 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "parity-scale-codec 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -4409,7 +4426,7 @@ source = "git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef
 dependencies = [
  "derive_more 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-core-client 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-derive 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-pubsub 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -4438,7 +4455,7 @@ name = "substrate-rpc-servers"
 version = "2.0.0"
 source = "git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41#77e681fb8b9c1e98ef1441bcc648e40ee36dac41"
 dependencies = [
- "jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-http-server 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-pubsub 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-ws-server 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -4456,8 +4473,10 @@ dependencies = [
  "derive_more 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures 0.1.29 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "pallet-contracts 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
+ "pallet-contracts-rpc 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
  "parity-scale-codec 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "parking_lot 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sr-io 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
@@ -4474,6 +4493,7 @@ dependencies = [
  "substrate-inherents 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
  "substrate-network 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
  "substrate-primitives 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
+ "substrate-rpc 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
  "substrate-runtime-contract-sample-runtime 2.0.0",
  "substrate-service 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
  "substrate-transaction-pool 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)",
@@ -5818,7 +5838,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum jobserver 0.1.17 (registry+https://github.com/rust-lang/crates.io-index)" = "f2b1d42ef453b30b7387e113da1c83ab1605d90c5b4e0eb8e96d016ed3b8c160"
 "checksum js-sys 0.3.32 (registry+https://github.com/rust-lang/crates.io-index)" = "1c840fdb2167497b0bd0db43d6dfe61e91637fa72f9d061f8bd17ddc44ba6414"
 "checksum jsonrpc-client-transports 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "d389a085cb2184604dff060390cadb8cba1f063c7fd0ad710272c163c88b9f20"
-"checksum jsonrpc-core 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "34651edf3417637cc45e70ed0182ecfa9ced0b7e8131805fccf7400d989845ca"
+"checksum jsonrpc-core 14.0.5 (registry+https://github.com/rust-lang/crates.io-index)" = "fe3b688648f1ef5d5072229e2d672ecb92cbff7d1c79bcf3fd5898f3f3df0970"
 "checksum jsonrpc-core-client 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "9dbaec1d57271ff952f24ca79d37d716cfd749c855b058d9aa5f053a6b8ae4ef"
 "checksum jsonrpc-derive 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "d5d5c31575cc70a8b21542599028472c80a9248394aeea4d8918a045a0ab08a3"
 "checksum jsonrpc-http-server 14.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "aa54c4c2d88cb5e04b251a5031ba0f2ee8c6ef30970e31228955b89a80c3b611"
@@ -5899,6 +5919,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum pallet-aura 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)" = "<none>"
 "checksum pallet-balances 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)" = "<none>"
 "checksum pallet-contracts 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)" = "<none>"
+"checksum pallet-contracts-rpc 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)" = "<none>"
 "checksum pallet-contracts-rpc-runtime-api 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)" = "<none>"
 "checksum pallet-finality-tracker 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)" = "<none>"
 "checksum pallet-grandpa 2.0.0 (git+https://github.com/paritytech/substrate.git?rev=77e681fb8b9c1e98ef1441bcc648e40ee36dac41)" = "<none>"
