@@ -1,7 +1,7 @@
 #![feature(proc_macro_hygiene)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use ink_core::memory::{
+use ink_prelude::{
     format,
     vec::Vec,
 };
