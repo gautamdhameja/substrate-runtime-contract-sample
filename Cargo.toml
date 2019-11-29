@@ -29,6 +29,11 @@ git = 'https://github.com/paritytech/substrate.git'
 package = 'substrate-consensus-aura'
 rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
 
+[dependencies.consensus-common]
+git = 'https://github.com/paritytech/substrate.git'
+package = 'substrate-consensus-common'
+rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+
 [dependencies.contracts]
 git = 'https://github.com/paritytech/substrate.git'
 package = 'pallet-contracts'
@@ -118,9 +123,14 @@ rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
 git = 'https://github.com/paritytech/substrate.git'
 rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
 
-[dependencies.transaction-pool]
+[dependencies.txpool]
 git = 'https://github.com/paritytech/substrate.git'
 package = 'sc-transaction-pool'
+rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+
+[dependencies.txpool-api]
+git = 'https://github.com/paritytech/substrate.git'
+package = 'sp-transaction-pool-api'
 rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
 
 [package]
