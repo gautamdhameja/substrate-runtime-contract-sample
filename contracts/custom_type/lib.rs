@@ -1,7 +1,8 @@
 #![feature(proc_macro_hygiene)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use ink_core::memory::{
+use scale::KeyedVec as _;
+use ink_prelude::{
     format,
     vec::Vec,
 };
@@ -63,13 +64,14 @@ mod custom_type {
         /// Returns `None` if the key does not exist, or it failed to decode the value.
         #[ink(message)]
         fn read_custom_runtime(&self) -> Option<Foo> {
-            // The raw key for a storage Value is `<ModuleName> <ValueName>`
-            let raw_key = b"TemplateModule FooStore";
-            // A storage Value key is hashed using `twox_128`
-            let hashed_key = hashing::twox_128(&raw_key[..]);
+            // A storage key is constructed as `Twox128(module_prefix) ++ Twox128(storage_prefix)`
+            let module_prefix = hashing::twox_128(&b"TemplateModule"[..]);
+            let storage_prefix = hashing::twox_128(&b"FooStore"[..]);
+            let key = module_prefix.to_keyed_vec(&storage_prefix);
+            self.env().println(&format!("Storage key: {:?}", key));
 
             // Attempt to read and decode the value directly from the runtime storage
-            let result = self.env().get_runtime_storage::<Foo>(&hashed_key[..]);
+            let result = self.env().get_runtime_storage::<Foo>(&key[..]);
             match result {
                 Ok(foo) => {
                     // Return the successfully decoded instance of `Foo`
