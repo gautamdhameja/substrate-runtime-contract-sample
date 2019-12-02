@@ -8,7 +8,6 @@
 /// For more guidance on Substrate modules, see the example module
 /// https://github.com/paritytech/substrate/blob/master/frame/example/src/lib.rs
 
-use rstd::prelude::*;
 use support::{decl_module, decl_storage, decl_event, dispatch::Result};
 use system::ensure_signed;
 use codec::{Decode, Encode};
@@ -94,7 +93,7 @@ mod tests {
 
 	use primitives::H256;
 	use support::{impl_outer_origin, assert_ok, parameter_types, weights::Weight};
-	use sr_primitives::{
+	use sp_runtime::{
 		traits::{BlakeTwo256, IdentityLookup}, testing::Header, Perbill,
 	};
 
