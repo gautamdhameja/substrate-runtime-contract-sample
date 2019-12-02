@@ -24,6 +24,7 @@ use grandpa::fg_primitives;
 use version::RuntimeVersion;
 #[cfg(feature = "std")]
 use version::NativeVersion;
+use contracts_rpc_runtime_api::ContractExecResult;
 
 // A few exports that help ease life for downstream crates.
 #[cfg(any(feature = "std", test))]
@@ -301,6 +302,7 @@ construct_runtime!(
 		Indices: indices,
 		Balances: balances::{default, Error},
 		TransactionPayment: transaction_payment::{Module, Storage},
+		Contracts: contracts,
 		Sudo: sudo,
 		// Used for the module template in `./template.rs`
 		TemplateModule: template::{Module, Call, Storage, Event<T>},
@@ -442,7 +444,7 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl substrate_session::SessionKeys<Block> for Runtime {
+	impl sp_session::SessionKeys<Block> for Runtime {
 		fn generate_session_keys(seed: Option<Vec<u8>>) -> Vec<u8> {
 			opaque::SessionKeys::generate(seed)
 		}
