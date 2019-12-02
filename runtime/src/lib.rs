@@ -10,29 +10,28 @@ include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
 use rstd::prelude::*;
 use primitives::OpaqueMetadata;
-use sr_primitives::{
+use sp_runtime::{
 	ApplyExtrinsicResult, transaction_validity::TransactionValidity, generic, create_runtime_str,
 	impl_opaque_keys, MultiSignature
 };
-use sr_primitives::traits::{
+use sp_runtime::traits::{
 	NumberFor, BlakeTwo256, Block as BlockT, StaticLookup, Verify, ConvertInto, IdentifyAccount
 };
-use sr_api::impl_runtime_apis;
+use sp_api::impl_runtime_apis;
 use aura_primitives::sr25519::AuthorityId as AuraId;
 use grandpa::AuthorityList as GrandpaAuthorityList;
 use grandpa::fg_primitives;
 use version::RuntimeVersion;
 #[cfg(feature = "std")]
 use version::NativeVersion;
-use contracts_rpc_runtime_api::ContractExecResult;
 
 // A few exports that help ease life for downstream crates.
 #[cfg(any(feature = "std", test))]
-pub use sr_primitives::BuildStorage;
+pub use sp_runtime::BuildStorage;
 pub use timestamp::Call as TimestampCall;
 pub use balances::Call as BalancesCall;
 pub use contracts::Gas;
-pub use sr_primitives::{Permill, Perbill};
+pub use sp_runtime::{Permill, Perbill};
 pub use support::{
 	StorageValue, construct_runtime, parameter_types,
 	traits::Randomness,
@@ -75,7 +74,7 @@ mod template;
 pub mod opaque {
 	use super::*;
 
-	pub use sr_primitives::OpaqueExtrinsic as UncheckedExtrinsic;
+	pub use sp_runtime::OpaqueExtrinsic as UncheckedExtrinsic;
 
 	/// Opaque block header type.
 	pub type Header = generic::Header<BlockNumber, BlakeTwo256>;
@@ -94,7 +93,7 @@ pub mod opaque {
 
 pub mod currency {
 	use crate::Balance;
-	
+
 	pub const MILLICENTS: Balance = 1_000_000_000;
 	pub const CENTS: Balance = 1_000 * MILLICENTS;    // assume this is worth about a cent.
 	pub const DOLLARS: Balance = 100 * CENTS;
@@ -302,7 +301,6 @@ construct_runtime!(
 		Indices: indices,
 		Balances: balances::{default, Error},
 		TransactionPayment: transaction_payment::{Module, Storage},
-		Contracts: contracts,
 		Sudo: sudo,
 		// Used for the module template in `./template.rs`
 		TemplateModule: template::{Module, Call, Storage, Event<T>},
@@ -337,7 +335,7 @@ pub type CheckedExtrinsic = generic::CheckedExtrinsic<AccountId, Call, SignedExt
 pub type Executive = executive::Executive<Runtime, Block, system::ChainContext<Runtime>, Runtime, AllModules>;
 
 impl_runtime_apis! {
-	impl sr_api::Core<Block> for Runtime {
+	impl sp_api::Core<Block> for Runtime {
 		fn version() -> RuntimeVersion {
 			VERSION
 		}
@@ -351,7 +349,7 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl sr_api::Metadata<Block> for Runtime {
+	impl sp_api::Metadata<Block> for Runtime {
 		fn metadata() -> OpaqueMetadata {
 			Runtime::metadata().into()
 		}
@@ -382,7 +380,7 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl tx_pool_api::TaggedTransactionQueue<Block> for Runtime {
+	impl txpool_runtime_api::TaggedTransactionQueue<Block> for Runtime {
 		fn validate_transaction(tx: <Block as BlockT>::Extrinsic) -> TransactionValidity {
 			Executive::validate_transaction(tx)
 		}
