@@ -1,24 +1,17 @@
+[[bin]]
+name = 'substrate-runtime-contract-sample'
+path = 'src/main.rs'
+
 [build-dependencies]
 vergen = '3.0.4'
 
 [build-dependencies.build-script-utils]
 git = 'https://github.com/paritytech/substrate.git'
 package = 'substrate-build-script-utils'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
-
-[[bin]]
-name = 'substrate-runtime-contract-sample'
-path = 'src/main.rs'
-[profile.release]
-panic = 'unwind'
-
-[workspace]
-members = ['runtime']
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies]
-derive_more = '0.15.0'
 futures = '0.3.1'
-jsonrpc-core = "14.0.5"
 log = '0.4.8'
 parking_lot = '0.9.0'
 tokio = '0.1.22'
@@ -26,32 +19,32 @@ trie-root = '0.15.2'
 
 [dependencies.aura]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-consensus-aura'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
-
-[dependencies.consensus-common]
-git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-consensus-common'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
-
-[dependencies.contracts]
-git = 'https://github.com/paritytech/substrate.git'
-package = 'pallet-contracts'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sc-consensus-aura'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.aura-primitives]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-consensus-aura-primitives'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sp-consensus-aura'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.basic-authorship]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-basic-authorship'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sc-basic-authority'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.codec]
 package = 'parity-scale-codec'
 version = '1.0.0'
+
+[dependencies.consensus-common]
+git = 'https://github.com/paritytech/substrate.git'
+package = 'sp-consensus'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
+
+[dependencies.contracts]
+git = 'https://github.com/paritytech/substrate.git'
+package = 'pallet-contracts'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.ctrlc]
 features = ['termination']
@@ -63,75 +56,68 @@ version = '0.1.29'
 
 [dependencies.grandpa]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-finality-grandpa'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sc-finality-grandpa'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.grandpa-primitives]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-finality-grandpa-primitives'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sp-finality-granpda'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.inherents]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-inherents'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sp-inherents'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.network]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-network'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
-
-[dependencies.pallet-contracts-rpc]
-git = 'https://github.com/paritytech/substrate.git'
-package = 'pallet-contracts-rpc'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sc-network'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.primitives]
 git = 'https://github.com/paritytech/substrate.git'
-package = 'substrate-primitives'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+package = 'sp-core'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.runtime]
 package = 'substrate-runtime-contract-sample-runtime'
 path = 'runtime'
 
-[dependencies.sr-io]
+[dependencies.sc-cli]
 git = 'https://github.com/paritytech/substrate.git'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
-[dependencies.sr-primitives]
+[dependencies.sc-client]
 git = 'https://github.com/paritytech/substrate.git'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
-[dependencies.substrate-cli]
+[dependencies.sc-executor]
 git = 'https://github.com/paritytech/substrate.git'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
-[dependencies.substrate-client]
+[dependencies.sc-service]
 git = 'https://github.com/paritytech/substrate.git'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
-[dependencies.substrate-executor]
+[dependencies.sp-io]
 git = 'https://github.com/paritytech/substrate.git'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
-[dependencies.substrate-rpc]
+[dependencies.sp-runtime]
 git = 'https://github.com/paritytech/substrate.git'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
-
-[dependencies.substrate-service]
-git = 'https://github.com/paritytech/substrate.git'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.txpool]
 git = 'https://github.com/paritytech/substrate.git'
 package = 'sc-transaction-pool'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
 
 [dependencies.txpool-api]
 git = 'https://github.com/paritytech/substrate.git'
 package = 'sp-transaction-pool-api'
-rev = 'e3245d49dc55c9e3a88ab3e45ff4a0c4d37750c4'
+rev = 'd8d5da2c6b7c8bf0fda7b406c27ef659dba47cd6'
+[profile.release]
+panic = 'unwind'
 
 [package]
 authors = ['Anonymous']
@@ -139,3 +125,6 @@ build = 'build.rs'
 edition = '2018'
 name = 'substrate-runtime-contract-sample'
 version = '2.0.0'
+
+[workspace]
+members = ['runtime']
