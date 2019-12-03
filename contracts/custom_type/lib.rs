@@ -64,10 +64,12 @@ mod custom_type {
         /// Returns `None` if the key does not exist, or it failed to decode the value.
         #[ink(message)]
         fn read_custom_runtime(&self) -> Option<Foo> {
+            let mut key = [0u8; 32];
             // A storage key is constructed as `Twox128(module_prefix) ++ Twox128(storage_prefix)`
             let module_prefix = hashing::twox_128(&b"TemplateModule"[..]);
             let storage_prefix = hashing::twox_128(&b"FooStore"[..]);
-            let key = module_prefix.to_keyed_vec(&storage_prefix);
+            key[0..16].copy_from_slice(&module_prefix);
+            key[16..32].copy_from_slice(&storage_prefix);
             self.env().println(&format!("Storage key: {:?}", key));
 
             // Attempt to read and decode the value directly from the runtime storage
