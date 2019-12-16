@@ -21,7 +21,7 @@ pub struct Foo {
 }
 
 /// The module's configuration trait.
-pub trait Trait: system::Trait {
+pub trait Trait: system::Trait + contracts::Trait {
 	// TODO: Add other types and constants required configure this module.
 
 	/// The overarching event type.
@@ -44,13 +44,11 @@ decl_storage! {
 decl_module! {
 	/// The module declaration.
 	pub struct Module<T: Trait> for enum Call where origin: T::Origin {
-		// Initializing events
-		// this is needed only if you are using events in your module
 		fn deposit_event() = default;
 
-		// Just a dummy entry point.
-		// function that can be called by the external world as an extrinsics call
-		// takes a parameter of the type `AccountId`, stores it and emits an event
+		/// Just a dummy entry point.
+		/// function that can be called by the external world as an extrinsics call
+		/// takes a parameter of the type `AccountId`, stores it and emits an event
 		pub fn do_something(origin, something: u32) -> Result {
 			// TODO: You only need this if you want to check it was signed.
 			let who = ensure_signed(origin)?;
@@ -64,6 +62,8 @@ decl_module! {
 			Ok(())
 		}
 
+		/// Stores a custom struct in the runtime storage.
+		/// Used for querying from smart contract.
 		pub fn store_foo(origin, data: Vec<u8>, id: u32) -> Result {
 			let _who = ensure_signed(origin)?;
 
@@ -75,6 +75,42 @@ decl_module! {
 			FooStore::put(foo);
 			Ok(())
 		}
+		
+		/// Calls a Substrate smart contract using its address and ABI.
+		/// input_data is the bytes representation of contract function/message name
+		/// and scale encoded parameter value.
+		pub fn call_contract(origin, address: T::AccountId, input_data: Vec<u8>) -> Result {
+			let who = ensure_signed(origin)?;
+			let exec_result = <contracts::Module<T>>::bare_call(who, address.clone(), 0.into(), 500000, input_data);
+			match exec_result {
+				Ok(v) => {
+					let result_val = bool::decode(&mut &v.data[..]);
+					match result_val {
+						Ok(b) => {
+							Self::deposit_event(RawEvent::ContractCalled(address, b));
+						},
+						Err(_) => { },
+					}
+				},
+				Err(_) => { },
+			}
+			
+			Ok(())
+		}
+
+		/// Query smart contract storage from runtime.
+		pub fn get_contract_storage(origin, address: T::AccountId) -> Result {
+			let who = ensure_signed(origin)?;
+			let key: [u8; 32] = Default::default();
+			let res = <contracts::Module<T>>::get_storage(address, key);
+			match res {
+				Ok(v) => {
+					// Decode the value
+				},
+				Err(_) => { },
+			}
+			Ok(())
+		}
 	}
 }
 
@@ -84,6 +120,9 @@ decl_event!(
 		// Event `Something` is declared with a parameter of the type `u32` and `AccountId`
 		// To emit this event, we call the deposit funtion, from our runtime funtions
 		SomethingStored(u32, AccountId),
+
+		// A smart contract was called from the runtime.
+		ContractCalled(AccountId, bool),
 	}
 );
 
