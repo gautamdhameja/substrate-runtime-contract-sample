@@ -88,5 +88,10 @@ mod custom_type {
                 }
             }
         }
+
+        #[ink(message)]
+        fn do_something(&self, flag: bool) -> bool {
+            !flag
+        }
     }
 }

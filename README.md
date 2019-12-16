@@ -2,6 +2,17 @@
 
 A sample Substrate runtime showing interaction between runtime modules (pallets) and smart contracts (ink!).
 
+## Runtime to Contract Interaction
+
+In the template module (pallet) in the runtime, following funtions are used for contract interaction:
+
+* call_contract
+* get_contract_storage (wip)
+
+## Contract to Runtime Interaction
+
+In the custom_type contract, the `read_custom_runtime` funtion is used to query the runtime storage for a custom struct.
+
 ## Custom types for Polkadot JS
 
 ```json
@@ -13,11 +24,11 @@ A sample Substrate runtime showing interaction between runtime modules (pallets)
 }
 ```
 
-## Generating Keys
+## Generating Storage Keys
 
-Keys to storage items in substrate are constructed by hashing the raw key. 
+Keys to storage items in substrate are constructed by hashing the raw key.
 
-Refer to the [substrate documentation](https://crates.parity.io/palette_support/macro.decl_storage.html#example) about storage types and key construction.
+Refer to the [substrate documentation](https://crates.parity.io/frame_support/macro.decl_storage.html#example) about storage types and key construction.
 
 ## Build
 
@@ -44,7 +55,7 @@ cargo build --release
 Start a development chain with:
 
 ```bash
-./target/release/node-template --dev
+./target/release/substrate-runtime-contract-sample --dev
 ```
 
 Detailed logs may be shown by running the node with the following environment variables set: `RUST_LOG=debug RUST_BACKTRACE=1 cargo run -- --dev`.
