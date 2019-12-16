@@ -12,6 +12,7 @@ use rstd::prelude::*;
 use support::{decl_module, decl_storage, decl_event, dispatch::Result};
 use system::ensure_signed;
 use codec::{Decode, Encode};
+use hex_literal::hex;
 
 #[cfg_attr(feature = "std", derive(Debug))]
 #[derive(Encode, Decode, Default, Clone, PartialEq)]
@@ -100,13 +101,22 @@ decl_module! {
 
 		/// Query smart contract storage from runtime.
 		pub fn get_contract_storage(origin, address: T::AccountId) -> Result {
-			let who = ensure_signed(origin)?;
-			let key: [u8; 32] = Default::default();
-			let res = <contracts::Module<T>>::get_storage(address, key);
+			let _who = ensure_signed(origin)?;
+			// The key is derived from the metadata.json file of the smart contract.
+			// The storage section of the metadata.json contains this value under the `range.offset` key. 
+			let key: [u8; 32] = hex!("0000000000000000000000000000000000000000000000000000000000000000");
+			let res = <contracts::Module<T>>::get_storage(address.clone(), key);
 			match res {
-				Ok(v) => {
-					// Decode the value
+				Ok(Some(v)) => {
+					let result_val = bool::decode(&mut &v[..]);
+					match result_val {
+						Ok(b) => {
+							Self::deposit_event(RawEvent::ContractQueried(address, b));
+						},
+						Err(_) => { },
+					}
 				},
+				Ok(None) => { },
 				Err(_) => { },
 			}
 			Ok(())
@@ -123,6 +133,9 @@ decl_event!(
 
 		// A smart contract was called from the runtime.
 		ContractCalled(AccountId, bool),
+
+		// A smart contract storage was queried.
+		ContractQueried(AccountId, bool),
 	}
 );
 
