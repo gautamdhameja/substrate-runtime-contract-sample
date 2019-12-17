@@ -7,6 +7,7 @@ use ink_prelude::{
     vec::Vec,
 };
 
+use ink_core::storage;
 use ink_lang2 as ink;
 
 /// Define hashing functions required for hashing the key to read a Value from runtime storage
@@ -37,7 +38,10 @@ mod hashing {
 #[ink::contract(version = "0.1.0")]
 mod custom_type {
     #[ink(storage)]
-    struct CustomRuntimeStorageTypeContract {}
+    struct CustomRuntimeStorageTypeContract {
+        that_bool: storage::Value<bool>,
+        that_int: storage::Value<u32>,
+    }
 
     /// Copy of the custom type defined in `/runtime/src/template.rs`.
     ///
@@ -90,7 +94,9 @@ mod custom_type {
         }
 
         #[ink(message)]
-        fn do_something(&self, flag: bool) -> bool {
+        fn do_something(&mut self, flag: bool, val: u32) -> bool {
+            self.that_bool.set(flag);
+            self.that_int.set(val);
             !flag
         }
     }

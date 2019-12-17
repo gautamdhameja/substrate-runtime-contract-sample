@@ -135,6 +135,9 @@ rev = 'c837c8d9216d310a0e6938496c33161680ed2355'
 default-features = false
 version = '1.0.0'
 
+[dependencies.hex-literal]
+version = '0.2.1'
+
 [dependencies.serde]
 features = ['derive']
 optional = true
