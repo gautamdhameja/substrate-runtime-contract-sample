@@ -80,8 +80,12 @@ decl_module! {
 		/// Calls a Substrate smart contract using its address and ABI.
 		/// input_data is the bytes representation of contract function/message name
 		/// and scale encoded parameter value.
-		pub fn call_contract(origin, address: T::AccountId, input_data: Vec<u8>) -> Result {
+		pub fn call_contract(origin, address: T::AccountId, selector: Vec<u8>, flag: bool, val: u32) -> Result {
 			let who = ensure_signed(origin)?;
+			let encoded_bool = bool::encode(&flag);
+			let encoded_int = u32::encode(&val);
+			let input_data = [&selector[..], &encoded_bool[..], &encoded_int[..]].concat();
+		
 			let exec_result = <contracts::Module<T>>::bare_call(who, address.clone(), 0.into(), 500000, input_data);
 			match exec_result {
 				Ok(v) => {
@@ -104,14 +108,29 @@ decl_module! {
 			let _who = ensure_signed(origin)?;
 			// The key is derived from the metadata.json file of the smart contract.
 			// The storage section of the metadata.json contains this value under the `range.offset` key. 
-			let key: [u8; 32] = hex!("0000000000000000000000000000000000000000000000000000000000000000");
-			let res = <contracts::Module<T>>::get_storage(address.clone(), key);
-			match res {
+			let key_bool: [u8; 32] = hex!("0000000000000000000000000000000000000000000000000000000000000000");
+			let key_int: [u8; 32] = hex!("0000000000000000000000000000000000000000000000000000000000000001");
+			let res_bool = <contracts::Module<T>>::get_storage(address.clone(), key_bool);
+			let res_int = <contracts::Module<T>>::get_storage(address.clone(), key_int);
+			match res_bool {
 				Ok(Some(v)) => {
 					let result_val = bool::decode(&mut &v[..]);
 					match result_val {
 						Ok(b) => {
 							Self::deposit_event(RawEvent::ContractQueried(address, b));
+						},
+						Err(_) => { },
+					}
+				},
+				Ok(None) => { },
+				Err(_) => { },
+			}
+			match res_int {
+				Ok(Some(v)) => {
+					let result_val = u32::decode(&mut &v[..]);
+					match result_val {
+						Ok(u) => {
+							Something::put(u);
 						},
 						Err(_) => { },
 					}

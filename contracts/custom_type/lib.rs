@@ -40,6 +40,7 @@ mod custom_type {
     #[ink(storage)]
     struct CustomRuntimeStorageTypeContract {
         that_bool: storage::Value<bool>,
+        that_int: storage::Value<u32>,
     }
 
     /// Copy of the custom type defined in `/runtime/src/template.rs`.
@@ -93,8 +94,9 @@ mod custom_type {
         }
 
         #[ink(message)]
-        fn do_something(&mut self, flag: bool) -> bool {
+        fn do_something(&mut self, flag: bool, val: u32) -> bool {
             self.that_bool.set(flag);
+            self.that_int.set(val);
             !flag
         }
     }
