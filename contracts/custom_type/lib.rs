@@ -93,11 +93,18 @@ mod custom_type {
             }
         }
 
+        /// Writes in the contract storage
         #[ink(message)]
         fn do_something(&mut self, flag: bool, val: u32) -> bool {
             self.that_bool.set(flag);
             self.that_int.set(val);
             !flag
+        }
+
+        /// Simply returns the current values of contract storage.
+        #[ink(message)]
+        fn get_contract_values(&self) -> Option<(bool, u32)> {
+            Some((*self.that_bool, *self.that_int))
         }
     }
 }
