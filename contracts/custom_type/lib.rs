@@ -1,14 +1,6 @@
-#![feature(proc_macro_hygiene)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use scale::KeyedVec as _;
-use ink_prelude::{
-    format,
-    vec::Vec,
-};
-
-use ink_core::storage;
-use ink_lang2 as ink;
+use ink_lang as ink;
 
 /// Define hashing functions required for hashing the key to read a Value from runtime storage
 mod hashing {
@@ -37,6 +29,13 @@ mod hashing {
 /// Contract to demonstrate reading a custom struct directly from runtime storage
 #[ink::contract(version = "0.1.0")]
 mod custom_type {
+    use ink_core::{storage, env};
+    use ink_prelude::{
+        format,
+        vec::Vec,
+    };
+    use super::hashing;
+
     #[ink(storage)]
     struct CustomRuntimeStorageTypeContract {
         that_bool: storage::Value<bool>,
@@ -74,20 +73,27 @@ mod custom_type {
             let storage_prefix = hashing::twox_128(&b"FooStore"[..]);
             key[0..16].copy_from_slice(&module_prefix);
             key[16..32].copy_from_slice(&storage_prefix);
-            self.env().println(&format!("Storage key: {:?}", key));
+            env::println(&format!("Storage key: {:?}", key));
 
             // Attempt to read and decode the value directly from the runtime storage
             let result = self.env().get_runtime_storage::<Foo>(&key[..]);
             match result {
-                Ok(foo) => {
-                    // Return the successfully decoded instance of `Foo`
-                    Some(foo)
+                Some(foo) => {
+                    match foo {
+                        Ok(foo) => {
+                            // Return the successfully decoded instance of `Foo`
+                            Some(foo)
+                        }
+                        Err(err) => {
+                            // Error decoding the value at Foo.
+                            env::println(&format!("Error reading runtime storage: {:?}", err));
+                            None
+                        }
+                    }
                 },
-                Err(err) => {
-                    // Either the key did not exist or it failed to decode.
-                    // Print the reason for the error and return None.
-                    // *Note:* `println` should only be used for debugging, not in production contracts.
-                    self.env().println(&format!("Error reading runtime storage: {:?}", err));
+                None => {
+                    // Key not present
+                    env::println(&format!("No such key: {:?}", key));
                     None
                 }
             }
