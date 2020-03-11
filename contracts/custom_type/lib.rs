@@ -1,42 +1,41 @@
 #![feature(proc_macro_hygiene)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use scale::KeyedVec as _;
-use ink_prelude::{
-    format,
-    vec::Vec,
-};
-
-use ink_core::storage;
-use ink_lang2 as ink;
-
-/// Define hashing functions required for hashing the key to read a Value from runtime storage
-mod hashing {
-    /// Do a XX 128-bit hash and place result in `dest`.
-    pub fn twox_128_into(data: &[u8], dest: &mut [u8; 16]) {
-        use ::core::hash::Hasher;
-        let mut h0 = twox_hash::XxHash::with_seed(0);
-        let mut h1 = twox_hash::XxHash::with_seed(1);
-        h0.write(data);
-        h1.write(data);
-        let r0 = h0.finish();
-        let r1 = h1.finish();
-        use byteorder::{ByteOrder, LittleEndian};
-        LittleEndian::write_u64(&mut dest[0..8], r0);
-        LittleEndian::write_u64(&mut dest[8..16], r1);
-    }
-
-    /// Do a XX 128-bit hash and return result.
-    pub fn twox_128(data: &[u8]) -> [u8; 16] {
-        let mut r: [u8; 16] = [0; 16];
-        twox_128_into(data, &mut r);
-        r
-    }
-}
+use ink_lang as ink;
 
 /// Contract to demonstrate reading a custom struct directly from runtime storage
 #[ink::contract(version = "0.1.0")]
 mod custom_type {
+    use ink_core::{storage, env};
+    use ink_prelude::{
+        format,
+        vec::Vec,
+    };
+
+    /// Define hashing functions required for hashing the key to read a Value from runtime storage
+    mod hashing {
+        /// Do a XX 128-bit hash and place result in `dest`.
+        pub fn twox_128_into(data: &[u8], dest: &mut [u8; 16]) {
+            use ::core::hash::Hasher;
+            let mut h0 = twox_hash::XxHash::with_seed(0);
+            let mut h1 = twox_hash::XxHash::with_seed(1);
+            h0.write(data);
+            h1.write(data);
+            let r0 = h0.finish();
+            let r1 = h1.finish();
+            use byteorder::{ByteOrder, LittleEndian};
+            LittleEndian::write_u64(&mut dest[0..8], r0);
+            LittleEndian::write_u64(&mut dest[8..16], r1);
+        }
+
+        /// Do a XX 128-bit hash and return result.
+        pub fn twox_128(data: &[u8]) -> [u8; 16] {
+            let mut r: [u8; 16] = [0; 16];
+            twox_128_into(data, &mut r);
+            r
+        }
+    }
+
     #[ink(storage)]
     struct CustomRuntimeStorageTypeContract {
         that_bool: storage::Value<bool>,
@@ -70,24 +69,31 @@ mod custom_type {
         fn read_custom_runtime(&self) -> Option<Foo> {
             let mut key = [0u8; 32];
             // A storage key is constructed as `Twox128(module_prefix) ++ Twox128(storage_prefix)`
-            let module_prefix = hashing::twox_128(&b"TemplateModule"[..]);
-            let storage_prefix = hashing::twox_128(&b"FooStore"[..]);
+            let module_prefix = super::hashing::twox_128(&b"TemplateModule"[..]);
+            let storage_prefix = super::hashing::twox_128(&b"FooStore"[..]);
             key[0..16].copy_from_slice(&module_prefix);
             key[16..32].copy_from_slice(&storage_prefix);
-            self.env().println(&format!("Storage key: {:?}", key));
+            env::println(&format!("Storage key: {:?}", key));
 
             // Attempt to read and decode the value directly from the runtime storage
             let result = self.env().get_runtime_storage::<Foo>(&key[..]);
             match result {
-                Ok(foo) => {
-                    // Return the successfully decoded instance of `Foo`
-                    Some(foo)
+                Some(foo) => {
+                    match foo {
+                        Ok(foo) => {
+                            // Return the successfully decoded instance of `Foo`
+                            Some(foo)
+                        }
+                        Err(err) => {
+                            // Error decoding the value at Foo.
+                            env::println(&format!("Error reading runtime storage: {:?}", err));
+                            None
+                        }
+                    }
                 },
-                Err(err) => {
-                    // Either the key did not exist or it failed to decode.
-                    // Print the reason for the error and return None.
-                    // *Note:* `println` should only be used for debugging, not in production contracts.
-                    self.env().println(&format!("Error reading runtime storage: {:?}", err));
+                None => {
+                    // Key not present
+                    env::println(&format!("No such key: {:?}", key));
                     None
                 }
             }
