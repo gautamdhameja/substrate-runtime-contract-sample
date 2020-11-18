@@ -26,10 +26,8 @@ mod hashing {
     }
 }
 
-/// Contract to demonstrate reading a custom struct directly from runtime storage
-#[ink::contract(version = "0.1.0")]
+#[ink::contract]
 mod custom_type {
-    use ink_core::{storage, env};
     use ink_prelude::{
         format,
         vec::Vec,
@@ -37,9 +35,9 @@ mod custom_type {
     use super::hashing;
 
     #[ink(storage)]
-    struct CustomRuntimeStorageTypeContract {
-        that_bool: storage::Value<bool>,
-        that_int: storage::Value<u32>,
+    pub struct CustomRuntimeStorageTypeContract {
+        that_bool: bool,
+        that_int: u32,
     }
 
     /// Copy of the custom type defined in `/runtime/src/template.rs`.
@@ -59,58 +57,62 @@ mod custom_type {
     impl CustomRuntimeStorageTypeContract {
         /// Constructor initializes the contract
         #[ink(constructor)]
-        fn new(&mut self) {
+        pub fn new() -> Self {
+            Self {
+                that_bool: Default::default(),
+                that_int: Default::default(),
+             }
         }
 
-        /// Attempts to read an instance of the custom struct from runtime storage
-        ///
-        /// Returns `None` if the key does not exist, or it failed to decode the value.
-        #[ink(message)]
-        fn read_custom_runtime(&self) -> Option<Foo> {
-            let mut key = [0u8; 32];
-            // A storage key is constructed as `Twox128(module_prefix) ++ Twox128(storage_prefix)`
-            let module_prefix = hashing::twox_128(&b"TemplateModule"[..]);
-            let storage_prefix = hashing::twox_128(&b"FooStore"[..]);
-            key[0..16].copy_from_slice(&module_prefix);
-            key[16..32].copy_from_slice(&storage_prefix);
-            env::println(&format!("Storage key: {:?}", key));
+        // /// Attempts to read an instance of the custom struct from runtime storage
+        // ///
+        // /// Returns `None` if the key does not exist, or it failed to decode the value.
+        // #[ink(message)]
+        // pub fn read_custom_runtime(&self) -> Option<Foo> {
+        //     let mut key = [0u8; 32];
+        //     // A storage key is constructed as `Twox128(module_prefix) ++ Twox128(storage_prefix)`
+        //     let module_prefix = hashing::twox_128(&b"TemplateModule"[..]);
+        //     let storage_prefix = hashing::twox_128(&b"FooStore"[..]);
+        //     key[0..16].copy_from_slice(&module_prefix);
+        //     key[16..32].copy_from_slice(&storage_prefix);
+        //     ink_env::debug_println(&format!("Storage key: {:?}", key));
 
-            // Attempt to read and decode the value directly from the runtime storage
-            let result = self.env().get_runtime_storage::<Foo>(&key[..]);
-            match result {
-                Some(foo) => {
-                    match foo {
-                        Ok(foo) => {
-                            // Return the successfully decoded instance of `Foo`
-                            Some(foo)
-                        }
-                        Err(err) => {
-                            // Error decoding the value at Foo.
-                            env::println(&format!("Error reading runtime storage: {:?}", err));
-                            None
-                        }
-                    }
-                },
-                None => {
-                    // Key not present
-                    env::println(&format!("No such key: {:?}", key));
-                    None
-                }
-            }
-        }
+        //     // Attempt to read and decode the value directly from the runtime storage
+        //     let result = self.env().get_runtime_storage::<Foo>(&key[..]);
+        //     match result {
+        //         Some(foo) => {
+        //             match foo {
+        //                 Ok(foo) => {
+        //                     // Return the successfully decoded instance of `Foo`
+        //                     Some(foo)
+        //                 }
+        //                 Err(err) => {
+        //                     // Error decoding the value at Foo.
+        //                     ink_env::debug_println(&format!("Error reading runtime storage: {:?}", err));
+        //                     None
+        //                 }
+        //             }
+        //         },
+        //         None => {
+        //             // Key not present
+        //             ink_env::debug_println(&format!("No such key: {:?}", key));
+        //             None
+        //         }
+        //     }
+        // }
 
         /// Writes in the contract storage
         #[ink(message)]
-        fn do_something(&mut self, flag: bool, val: u32) -> bool {
-            self.that_bool.set(flag);
-            self.that_int.set(val);
+        pub fn do_something(&mut self, flag: bool, val: u32) -> bool {
+            self.that_bool = flag;
+            self.that_int = val;
             !flag
         }
 
         /// Simply returns the current values of contract storage.
         #[ink(message)]
-        fn get_contract_values(&self) -> Option<(bool, u32)> {
-            Some((*self.that_bool, *self.that_int))
+        pub fn get_contract_values(&self) -> Option<(bool, u32)> {
+            Some((self.that_bool, self.that_int))
         }
     }
 }

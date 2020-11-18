@@ -7,3 +7,7 @@ members = [
     'pallets/template',
     'runtime',
 ]
+
+exclude = [
+    "contracts/",
+]
