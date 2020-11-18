@@ -141,7 +141,7 @@ decl_module! {
 			// The key is derived from the metadata.json file of the smart contract.
 			// The storage section of the metadata.json contains this value under key.
 			let key_bool: [u8; 32] = hex!("0000000000000000000000000000000000000000000000000000000000000000");
-			let key_int: [u8; 32] = hex!("0000000000000000000000000000000000000000000000000000000000000001");
+			let key_int: [u8; 32] = hex!("0100000000000000000000000000000000000000000000000000000000000000");
 			let res_bool = <pallet_contracts::Module<T>>::get_storage(address.clone(), key_bool);
 			let res_int = <pallet_contracts::Module<T>>::get_storage(address.clone(), key_int);
 			match res_bool {
