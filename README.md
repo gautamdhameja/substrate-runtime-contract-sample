@@ -11,7 +11,7 @@ In the template module (pallet) in the runtime, following funtions are used for 
 
 ## Contract to Runtime Interaction
 
-In the custom_type contract, the `read_custom_runtime` funtion is used to query the runtime storage for a custom struct.
+~~In the custom_type contract, the `read_custom_runtime` funtion is used to query the runtime storage for a custom struct.~~
 
 ## Custom types for Polkadot JS
 
@@ -61,11 +61,11 @@ cargo install --force --git https://github.com/paritytech/cargo-contract
 Inside the `contracts/custom_type` sub-directory, run the following commands to build the contract and generate its metadata:
 
 ```bash
-cargo contract build
+cargo +nightly contract build
 ```
 
 ```bash
-cargo contract generate-metadata
+cargo +nightly contract generate-metadata
 ```
 
 ## Run
