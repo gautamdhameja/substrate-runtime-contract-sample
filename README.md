@@ -1,3 +1,5 @@
+> **This sample is not compatible with the latest release of Substrate. The underlying APIs have evolved quite a bit. The repo is being archived for the same reason. Please do not use this sample.**
+
 # Substrate Runtime-Contract Sample
 
 A sample Substrate runtime showing interaction between runtime modules (pallets) and smart contracts (ink!).
