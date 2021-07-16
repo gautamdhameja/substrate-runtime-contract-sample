@@ -1,4 +1,5 @@
-> **This sample is not compatible with the latest release of Substrate. The underlying APIs have evolved quite a bit. The repo is being archived for the same reason. Please do not use this sample.**
+> **This sample is not compatible with the latest release of Substrate because the APIs have evolved quite a bit. The repo is being archived for the same reason. Please do not use this sample. 
+> The underlying APIs in Substrate have been replaced by chain extensions and contract-to-runtime interaction is possible with that - https://github.com/paritytech/substrate/pull/9276**
 
 # Substrate Runtime-Contract Sample
 
